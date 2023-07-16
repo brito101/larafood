@@ -10,4 +10,11 @@ class Plan extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'url', 'price', 'description'];
+
+    protected $appends = ['price_br'];
+
+    public function getPriceBrAttribute()
+    {
+        return 'R$ ' . number_format($this->price, 2, ',', '.');
+    }
 }

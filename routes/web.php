@@ -5,7 +5,10 @@ use App\Http\Controllers\Admin\{
 };
 use Illuminate\Support\Facades\Route;
 
-Route::resource("admin/plans", PlanController::class);
+Route::prefix('admin')->group(function () {
+    Route::resource("plans", PlanController::class);
+});
+
 
 Route::get('/', function () {
     return view('welcome');

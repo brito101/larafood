@@ -39,7 +39,7 @@
                                 $heads = [['label' => 'ID', 'width' => 10], 'Nome', 'Preço', ['label' => 'Ações', 'no-export' => true, 'width' => 10]];
                                 $config = [
                                     'ajax' => url('/admin/plans'),
-                                    'columns' => [['data' => 'id', 'name' => 'id'], ['data' => 'name', 'name' => 'name'], ['data' => 'price', 'name' => 'price', 'class' => 'price'], ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false]],
+                                    'columns' => [['data' => 'id', 'name' => 'id'], ['data' => 'name', 'name' => 'name'], ['data' => 'price_br', 'name' => 'price', 'class' => 'price'], ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false]],
                                     'language' => ['url' => asset('vendor/datatables/js/pt-BR.json')],
                                     'autoFill' => true,
                                     'processing' => true,

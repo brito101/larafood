@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PlanRequest;
 use App\Models\Plan;
 use Illuminate\Http\Request;
 use DataTables;
-use Illuminate\Support\Str;
 
 class PlanController extends Controller
 {
@@ -55,12 +55,11 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PlanRequest $request)
     {
         $data = $request->all();
-        $data['url'] = Str::slug($request->name);
         Plan::create($data);
-        return redirect()->route('plans.index')->with('success', 'Plano Cadastrado!');
+        return redirect()->route('plans.index')->with('success', 'Plano cadastrado com sucesso!');
     }
 
     /**
@@ -88,7 +87,13 @@ class PlanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $plan = Plan::find($id);
+
+        if (!$plan) {
+            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+        }
+
+        return view('admin.pages.plans.edit', compact('plan'));
     }
 
     /**
@@ -98,9 +103,18 @@ class PlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PlanRequest $request, $id)
     {
-        //
+        $plan = Plan::find($id);
+
+        if (!$plan) {
+            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+        }
+
+        $data = $request->all();
+        $plan->update($data);
+
+        return redirect()->route('plans.index')->with('success', 'Plano atualizado com sucesso!');
     }
 
     /**
