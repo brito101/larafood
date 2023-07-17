@@ -17,4 +17,9 @@ class Plan extends Model
     {
         return 'R$ ' . number_format($this->price, 2, ',', '.');
     }
+
+    public function details()
+    {
+        return $this->hasMany(PlanDetail::class);
+    }
 }

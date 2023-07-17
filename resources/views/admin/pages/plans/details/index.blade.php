@@ -2,19 +2,22 @@
 @section('plugins.Datatables', true)
 @section('plugins.DatatablesPlugin', true)
 
-@section('title', 'Planos')
+@section('title', 'Detalhes do Plano')
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><i class="fas fa-fw fa-file"></i> Planos</h1>
+                    <h1><i class="fas fa-fw fa-file"></i> Detalhes do Plano {{ $plan->name }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Planos</li>
+                        <li class="breadcrumb-item active"><a href="{{ route('plans.index') }}">Planos</a></li>
+                        <li class="breadcrumb-item active"><a href="{{ route('plans.show', ['plan' => $plan->id]) }}">Plano
+                                {{ $plan->name }}</a></li>
+                        <li class="breadcrumb-item active">Detalhes do Plano</li>
                     </ol>
                 </div>
             </div>
@@ -29,17 +32,17 @@
                         <div class="card-header">
                             <div class="d-flex flex-wrap justify-content-between col-12 align-content-center">
                                 <h3 class="card-title align-self-center">Planos Cadastrados</h3>
-                                <a href="{{ route('plans.create') }}" title="Novo Plano" class="btn btn-success"><i
-                                        class="fas fa-fw fa-plus"></i>Novo Plano</a>
+                                <a href="{{ route('details.create', ['id' => $plan->id]) }}" title="Novo Detalhe"
+                                    class="btn btn-success"><i class="fas fa-fw fa-plus"></i>Novo Detalhe</a>
                             </div>
                         </div>
 
                         <div class="card-body">
                             @php
-                                $heads = [['label' => 'ID', 'width' => 10], 'Nome', 'Preço', ['label' => 'Ações', 'no-export' => true, 'width' => 15]];
+                                $heads = [['label' => 'ID', 'width' => 10], 'Nome', ['label' => 'Ações', 'no-export' => true, 'width' => 10]];
                                 $config = [
-                                    'ajax' => url('/admin/plans'),
-                                    'columns' => [['data' => 'id', 'name' => 'id'], ['data' => 'name', 'name' => 'name'], ['data' => 'price_br', 'name' => 'price', 'class' => 'price'], ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false]],
+                                    'ajax' => url('/admin/plans/' . $plan->id . '/details'),
+                                    'columns' => [['data' => 'id', 'name' => 'id'], ['data' => 'name', 'name' => 'name'], ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false]],
                                     'language' => ['url' => asset('vendor/datatables/js/pt-BR.json')],
                                     'autoFill' => true,
                                     'processing' => true,
