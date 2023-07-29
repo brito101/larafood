@@ -295,6 +295,37 @@ return [
             'url'  => 'admin/plans',
             'icon' => 'fas fa-list-alt'
         ],
+        [
+            'text'    => 'ACL',
+            'icon'    => 'fas fa-fw fa-user-shield',
+            'can'     => 'Acessar ACL',
+            'submenu' => [
+
+                [
+                    'text' => 'Listagem de Perfis',
+                    'url'  => 'admin/role',
+                    'icon'    => 'fas fa-fw fa-chevron-right',
+                    'can'     => 'Listar Perfis',
+                ],
+                [
+                    'text' => 'Cadastro de Perfis',
+                    'url'  => 'admin/role/create',
+                    'icon'    => 'fas fa-fw fa-chevron-right',
+                    'can'     => 'Criar Perfis',
+                ],
+                [
+                    'text' => 'Listagem de Permissões',
+                    'url'  => 'admin/permission',
+                    'icon'    => 'fas fa-fw fa-chevron-right',
+                ],
+                [
+                    'text' => 'Cadastro de Permissões',
+                    'url'  => 'admin/permission/create',
+                    'icon'    => 'fas fa-fw fa-chevron-right',
+                    'can'     => 'Criar Permissões',
+                ],
+            ]
+        ],
     ],
 
     /*

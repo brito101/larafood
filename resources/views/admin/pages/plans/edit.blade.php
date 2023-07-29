@@ -43,7 +43,7 @@
                                     <div class="col-12 col-md-3 form-group px-0 pr-md-2">
                                         <label for="name">Nome</label>
                                         <input type="text" class="form-control" id="name"
-                                            placeholder="Nome Completo" name="name"
+                                            placeholder="Nome do Plano" name="name"
                                             value="{{ old('name') ?? $plan->name }}" required>
                                     </div>
                                     <div class="col-12 col-md-3 form-group px-0 px-md-2">

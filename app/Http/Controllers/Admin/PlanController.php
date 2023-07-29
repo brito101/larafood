@@ -126,10 +126,14 @@ class PlanController extends Controller
      */
     public function destroy($id)
     {
-        $plan = Plan::find($id);
+        $plan = Plan::with('details')->find($id);
 
         if (!$plan) {
             return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+        }
+
+        if ($plan->details()->count() > 0) {
+            return redirect()->route('plans.index')->with('error', 'Existem detalhes vinculados a esse plano, portanto não pode deletar');
         }
 
         $plan->delete();

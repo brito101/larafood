@@ -32,7 +32,7 @@ class PlanRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => "required|min:3|max:255|unique:plans,name,{$this->id},id",
+            'name' => "required|min:1|max:255|unique:plans,name,{$this->id},id",
             'description' => 'nullable|min:3|max:255',
             'price' => "required|regex:/^\d+(\.\d{1,2})?$/",
         ];
