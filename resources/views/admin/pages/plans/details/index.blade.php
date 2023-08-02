@@ -14,8 +14,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('plans.index') }}">Planos</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('plans.show', ['plan' => $plan->id]) }}">Plano
+                        <li class="breadcrumb-item active"><a href="{{ route('admin.plans.index') }}">Planos</a></li>
+                        <li class="breadcrumb-item active"><a href="{{ route('admin.plans.show', ['plan' => $plan->id]) }}">Plano
                                 {{ $plan->name }}</a></li>
                         <li class="breadcrumb-item active">Detalhes do Plano</li>
                     </ol>
@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <div class="d-flex flex-wrap justify-content-between col-12 align-content-center">
                                 <h3 class="card-title align-self-center">Planos Cadastrados</h3>
-                                <a href="{{ route('details.create', ['id' => $plan->id]) }}" title="Novo Detalhe"
+                                <a href="{{ route('admin.details.create', ['id' => $plan->id]) }}" title="Novo Detalhe"
                                     class="btn btn-success"><i class="fas fa-fw fa-plus"></i>Novo Detalhe</a>
                             </div>
                         </div>

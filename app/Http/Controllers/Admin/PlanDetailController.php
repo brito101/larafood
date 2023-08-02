@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\CheckPermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PlanDetailRequest;
 use App\Models\Plan;
@@ -29,8 +30,10 @@ class PlanDetailController extends Controller
      */
     public function index(Request $request, $planId)
     {
+        CheckPermission::checkAuth('Listar Detalhes');
+
         if (!$plan = $this->plan->find($planId)) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         $details = $plan->details();
@@ -62,8 +65,10 @@ class PlanDetailController extends Controller
      */
     public function create($planId)
     {
+        CheckPermission::checkAuth('Criar Detalhes');
+
         if (!$plan = $this->plan->find($planId)) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         return view('admin.pages.plans.details.create', compact('plan'));
@@ -77,13 +82,15 @@ class PlanDetailController extends Controller
      */
     public function store(PlanDetailRequest $request, $planId)
     {
+        CheckPermission::checkAuth('Criar Detalhes');
+
         if (!$plan = $this->plan->find($planId)) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         $plan->details()->create($request->all());
 
-        return redirect()->route('details.index', ['id' => $plan->id])->with('success', 'Detalhe do Plano cadastrado com sucesso!');
+        return redirect()->route('admin.details.index', ['id' => $plan->id])->with('success', 'Detalhe do Plano cadastrado com sucesso!');
     }
 
     /**
@@ -94,15 +101,16 @@ class PlanDetailController extends Controller
      */
     public function show($planId, $detailId)
     {
+        CheckPermission::checkAuth('Listar Detalhes');
 
         if (!$plan = $this->plan->find($planId)) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         $detail = PlanDetail::find($detailId);
 
         if (!$detail) {
-            return redirect()->route('details.index', ['id' => $plan])->with('error', 'Detalhe não encontrado!');
+            return redirect()->route('admin.details.index', ['id' => $plan])->with('error', 'Detalhe não encontrado!');
         }
 
         return view('admin.pages.plans.details.show', compact('plan', 'detail'));
@@ -116,9 +124,10 @@ class PlanDetailController extends Controller
      */
     public function edit($planId, $detailId)
     {
+        CheckPermission::checkAuth('Editar Detalhes');
 
         if (!$plan = $this->plan->find($planId)) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         $detail = PlanDetail::find($detailId);
@@ -139,19 +148,21 @@ class PlanDetailController extends Controller
      */
     public function update(PlanDetailRequest $request, $planId, $detailId)
     {
+        CheckPermission::checkAuth('Editar Detalhes');
+
         if (!$plan = $this->plan->find($planId)) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         $detail = PlanDetail::find($detailId);
 
         if (!$detail) {
-            return redirect()->route('details.index', ['id' => $plan])->with('error', 'Detalhe não encontrado!');
+            return redirect()->route('admin.details.index', ['id' => $plan])->with('error', 'Detalhe não encontrado!');
         }
 
         $detail->update($request->all());
 
-        return redirect()->route('details.index', ['id' => $plan->id])->with('success', 'Detalhe do Plano atualizado com sucesso!');
+        return redirect()->route('admin.details.index', ['id' => $plan->id])->with('success', 'Detalhe do Plano atualizado com sucesso!');
     }
 
     /**
@@ -162,18 +173,20 @@ class PlanDetailController extends Controller
      */
     public function destroy($planId, $detailId)
     {
+        CheckPermission::checkAuth('Excluir Detalhes');
+
         if (!$plan = $this->plan->find($planId)) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         $detail = PlanDetail::find($detailId);
 
         if (!$detail) {
-            return redirect()->route('details.index', ['id' => $plan])->with('error', 'Detalhe não encontrado!');
+            return redirect()->route('admin.details.index', ['id' => $plan])->with('error', 'Detalhe não encontrado!');
         }
 
         $detail->delete();
 
-        return redirect()->route('details.index', ['id' => $plan->id])->with('success', 'Detalhe do Plano excluído com sucesso!');
+        return redirect()->route('admin.details.index', ['id' => $plan->id])->with('success', 'Detalhe do Plano excluído com sucesso!');
     }
 }

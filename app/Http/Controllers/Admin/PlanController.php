@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\CheckPermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PlanRequest;
 use App\Models\Plan;
+use App\Models\PlanProfile;
 use Illuminate\Http\Request;
 use DataTables;
+use Spatie\Permission\Models\Role;
 
 class PlanController extends Controller
 {
@@ -17,6 +20,8 @@ class PlanController extends Controller
      */
     public function index(Request $request)
     {
+        CheckPermission::checkAuth('Listar Planos');
+
         $plans = Plan::query();
 
         if ($request->ajax()) {
@@ -47,7 +52,11 @@ class PlanController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.plans.create');
+        CheckPermission::checkAuth('Criar Planos');
+
+        $roles = Role::orderBy('name')->select('id', 'name')->get();
+
+        return view('admin.pages.plans.create', compact('roles'));
     }
 
     /**
@@ -58,9 +67,19 @@ class PlanController extends Controller
      */
     public function store(PlanRequest $request)
     {
+        CheckPermission::checkAuth('Criar Planos');
+
         $data = $request->all();
-        Plan::create($data);
-        return redirect()->route('plans.index')->with('success', 'Plano cadastrado com sucesso!');
+        $plan = Plan::create($data);
+
+        foreach ($request->roles as $item) {
+            PlanProfile::create([
+                'plan_id' => $plan->id,
+                'role_id' => $item,
+            ]);
+        }
+
+        return redirect()->route('admin.plans.index')->with('success', 'Plano cadastrado com sucesso!');
     }
 
     /**
@@ -71,13 +90,24 @@ class PlanController extends Controller
      */
     public function show($id)
     {
+        CheckPermission::checkAuth('Listar Planos');
+
         $plan = Plan::find($id);
 
         if (!$plan) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
-        return view('admin.pages.plans.show', compact('plan'));
+        $roles = Role::select('id', 'name')->get();
+
+        $profiles = [];
+        foreach ($roles as $role) {
+            if (in_array($role->id, $plan->profiles->pluck('role_id')->toArray())) {
+                $profiles[] = $role->name;
+            }
+        }
+
+        return view('admin.pages.plans.show', compact('plan', 'profiles'));
     }
 
     /**
@@ -88,13 +118,17 @@ class PlanController extends Controller
      */
     public function edit($id)
     {
+        CheckPermission::checkAuth('Editar Planos');
+
         $plan = Plan::find($id);
 
         if (!$plan) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
-        return view('admin.pages.plans.edit', compact('plan'));
+        $roles = Role::orderBy('name')->select('id', 'name')->get();
+
+        return view('admin.pages.plans.edit', compact('plan', 'roles'));
     }
 
     /**
@@ -106,16 +140,26 @@ class PlanController extends Controller
      */
     public function update(PlanRequest $request, $id)
     {
+        CheckPermission::checkAuth('Editar Planos');
+
         $plan = Plan::find($id);
 
         if (!$plan) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         $data = $request->all();
         $plan->update($data);
 
-        return redirect()->route('plans.index')->with('success', 'Plano atualizado com sucesso!');
+        $plan->profiles()->delete();
+        foreach ($request->roles as $item) {
+            PlanProfile::create([
+                'plan_id' => $plan->id,
+                'role_id' => $item,
+            ]);
+        }
+
+        return redirect()->route('admin.plans.index')->with('success', 'Plano atualizado com sucesso!');
     }
 
     /**
@@ -126,18 +170,21 @@ class PlanController extends Controller
      */
     public function destroy($id)
     {
+        CheckPermission::checkAuth('Excluir Planos');
+
         $plan = Plan::with('details')->find($id);
 
         if (!$plan) {
-            return redirect()->route('plans.index')->with('error', 'Plano não encontrado!');
+            return redirect()->route('admin.plans.index')->with('error', 'Plano não encontrado!');
         }
 
         if ($plan->details()->count() > 0) {
-            return redirect()->route('plans.index')->with('error', 'Existem detalhes vinculados a esse plano, portanto não pode deletar');
+            return redirect()->route('admin.plans.index')->with('error', 'Existem detalhes vinculados a esse plano, portanto não pode deletar');
         }
 
         $plan->delete();
+        $plan->profiles()->delete();
 
-        return redirect()->route('plans.index')->with('success', 'Plano deletado com sucesso!');
+        return redirect()->route('admin.plans.index')->with('success', 'Plano deletado com sucesso!');
     }
 }

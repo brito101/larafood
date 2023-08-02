@@ -13,11 +13,11 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('plans.index') }}">Planos</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('plans.show', ['plan' => $plan->id]) }}">Plano
+                        <li class="breadcrumb-item active"><a href="{{ route('admin.plans.index') }}">Planos</a></li>
+                        <li class="breadcrumb-item active"><a href="{{ route('admin.plans.show', ['plan' => $plan->id]) }}">Plano
                                 {{ $plan->name }}</a></li>
                         <li class="breadcrumb-item active"><a
-                                href="{{ route('details.index', ['id' => $plan->id]) }}">Detalhes do Plano
+                                href="{{ route('admin.details.index', ['id' => $plan->id]) }}">Detalhes do Plano
                                 {{ $plan->name }}</a></li>
                         <li class="breadcrumb-item active">Edição de Detalhe do Plano</li>
                     </ol>
@@ -39,7 +39,7 @@
                         </div>
 
                         <form method="POST"
-                            action="{{ route('details.update', ['id' => $plan->id, 'detail' => $detail->id]) }}">
+                            action="{{ route('admin.details.update', ['id' => $plan->id, 'detail' => $detail->id]) }}">
                             @method('PUT')
                             @csrf
                             <div class="card-body">

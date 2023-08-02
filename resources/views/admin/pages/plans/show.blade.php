@@ -13,7 +13,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('plans.index') }}">Planos</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.plans.index') }}">Planos</a></li>
                         <li class="breadcrumb-item active">{{ $plan->name }}</li>
                     </ol>
                 </div>
@@ -44,11 +44,23 @@
                                     <input type="text" class="form-control bg-white" id="price" name="price"
                                         value="R$ {{ number_format($plan->price, 2, ',', '.') }}" disabled>
                                 </div>
-                                <div class="col-12 col-md-6 form-group px-0 px-md-2">
+                                <div class="col-12 col-md-6 form-group px-0 pl-md-2">
                                     <label for="description">Descrição</label>
                                     <input type="text" class="form-control bg-white" id="description" name="description"
                                         value="{{ $plan->description }}" disabled>
                                 </div>
+
+                                @if (count($profiles) > 0)
+                                    <div class="col-12 form-group px-0">
+                                        <label for="instructions">Perfis Participantes</label>
+                                        <div class="col-12 form-group px-0 d-flex flex-wrap justify-content-center"
+                                            id="situation">
+                                            <div class="col-12 px-0 border border-grey border mx-1 rounded p-2">
+                                                {{ join(' e ', array_filter(array_merge([join(', ', array_slice($profiles, 0, -1))], array_slice($profiles, -1)), 'strlen')) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

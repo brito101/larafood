@@ -105,6 +105,58 @@ class PermissionsTableSeeder extends Seeder
                 'guard_name' => 'web',
                 'created_at' => new DateTime('now')
             ],
+            /** Plans 18 to 22 */
+            [
+                'name' => 'Acessar Planos',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Listar Planos',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Criar Planos',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Editar Planos',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Excluir Planos',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            /** Details 23 to 27 */
+            [
+                'name' => 'Acessar Detalhes',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Listar Detalhes',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Criar Detalhes',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Editar Detalhes',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
+            [
+                'name' => 'Excluir Detalhes',
+                'guard_name' => 'web',
+                'created_at' => new DateTime('now')
+            ],
         ]);
     }
 }

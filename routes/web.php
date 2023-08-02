@@ -6,16 +6,17 @@ use App\Http\Controllers\Admin\{
 };
 use App\Http\Controllers\Admin\ACL\PermissionController;
 use App\Http\Controllers\Admin\ACL\RoleController;
+use App\Http\Controllers\Site\SiteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/', function () {
-            return redirect()->route('plans.index');
-        });
+            return redirect()->route('admin.plans.index');
+        })->name('home');
 
         Route::resource("plans/{id}/details", PlanDetailController::class);
 
@@ -25,10 +26,9 @@ Route::group(['middleware' => ['auth']], function () {
          * ACL
          * */
         /** Permissions */
-        Route::get('/permission/destroy/{id}', [PermissionController::class, 'destroy']);
         Route::resource('permission', PermissionController::class);
+
         /** Roles */
-        Route::get('/role/destroy/{id}', [RoleController::class, 'destroy']);
         Route::get('role/{role}/permission', [RoleController::class, 'permissions'])->name('role.permissions');
         Route::put('role/{role}/permission/sync', [RoleController::class, 'permissionsSync'])->name('role.permissionsSync');
         Route::resource('role', RoleController::class);
@@ -36,10 +36,10 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/**
+ * Site
+ */
+Route::get('/plan/{url}', [SiteController::class, 'plan'])->name('plan.subscription');
+Route::get('/', [SiteController::class, 'index'])->name('site.home');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

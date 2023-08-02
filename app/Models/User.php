@@ -14,6 +14,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'tenant_id'
     ];
 
     /**

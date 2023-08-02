@@ -20,6 +20,7 @@ class CreatePlansTable extends Migration
             $table->decimal('price', 10, 2);
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

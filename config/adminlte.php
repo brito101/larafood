@@ -129,7 +129,7 @@ return [
     |
     */
 
-    'usermenu_enabled' => true,
+    'usermenu_enabled' => false,
     'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
@@ -291,9 +291,36 @@ return [
 
     'menu' => [
         [
+            'type'         => 'fullscreen-widget',
+            'topnav_right' => true,
+        ],
+        [
+            'type' => 'sidebar-menu-search',
+            'text' => 'Pesquisar',
+        ],
+        [
+            'text'        => 'Dashboard',
+            'url'         => '/admin',
+            'icon'        => 'fa fa-fw fa-digital-tachograph',
+        ],
+        [
             'text' => 'Planos',
-            'url'  => 'admin/plans',
-            'icon' => 'fas fa-list-alt'
+            'icon' => 'fas fa-list-alt',
+            'can'     => 'Acessar Planos',
+            'submenu' => [
+                [
+                    'text' => 'Listagem de Planos',
+                    'url'  => 'admin/plans',
+                    'icon'    => 'fas fa-fw fa-chevron-right',
+                    'can'     => 'Listar Planos',
+                ],
+                [
+                    'text' => 'Cadastro de Plano',
+                    'url'  => 'admin/plans/create',
+                    'icon'    => 'fas fa-fw fa-chevron-right',
+                    'can'     => 'Criar Planos',
+                ],
+            ],
         ],
         [
             'text'    => 'ACL',
@@ -433,13 +460,18 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'asset' => true,
+                    'location' => 'vendor/select2/js/select2.full.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'asset' => true,
+                    'location' => 'vendor/select2/css/select2.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
                 ],
             ],
         ],
@@ -475,6 +507,21 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'BootstrapSelect' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css',
                 ],
             ],
         ],
